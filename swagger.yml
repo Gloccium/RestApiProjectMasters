@@ -1,0 +1,203 @@
+openapi: 3.0.0
+info:
+  title: Movie API
+  description: API для домашней видеотеки
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000
+paths:
+  /movies:
+    post:
+      summary: Создать новый фильм
+      operationId: addMovie
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Название фильма
+                  example: Film 1
+                description:
+                  type: string
+                  description: Описание фильма
+                  example: "Good thriller"
+                genre:
+                  type: string
+                  description: Жанр фильма
+                  example: Thriller
+                release_year:
+                  type: integer
+                  description: Год выпуска
+                  example: 2015
+                rating:
+                  type: number
+                  format: float
+                  description: Рейтинг фильма
+                  example: 8.8
+      responses:
+        '201':
+          description: Фильм успешно создан
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: Идентификатор фильма
+                  title:
+                    type: string
+                    description: Название фильма
+                  description:
+                    type: string
+                    description: Описание фильма
+                  genre:
+                    type: string
+                    description: Жанр фильма
+                  release_year:
+                    type: integer
+                    description: Год выпуска
+                  rating:
+                    type: number
+                    format: float
+                    description: Рейтинг фильма
+        '400':
+          description: Некорректный запрос
+
+    get:
+      summary: Получить список всех фильмов
+      operationId: getMovies
+      responses:
+        '200':
+          description: Список фильмов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    title:
+                      type: string
+                    description:
+                      type: string
+                    genre:
+                      type: string
+                    release_year:
+                      type: integer
+                    rating:
+                      type: number
+                      format: float
+
+  /movies/{id}:
+    get:
+      summary: Получить фильм по ID
+      operationId: getMovie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Идентификатор фильма
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Информация о фильме
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  genre:
+                    type: string
+                  release_year:
+                    type: integer
+                  rating:
+                    type: number
+                    format: float
+        '404':
+          description: Фильм не найден
+
+    put:
+      summary: Обновить данные о фильме
+      operationId: updateMovie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Идентификатор фильма
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Название фильма
+                description:
+                  type: string
+                  description: Описание фильма
+                genre:
+                  type: string
+                  description: Жанр фильма
+                release_year:
+                  type: integer
+                  description: Год выпуска
+                rating:
+                  type: number
+                  format: float
+      responses:
+        '200':
+          description: Фильм обновлен
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  title:
+                    type: string
+                  description:
+                    type: string
+                  genre:
+                    type: string
+                  release_year:
+                    type: integer
+                  rating:
+                    type: number
+                    format: float
+        '404':
+          description: Фильм не найден
+
+    delete:
+      summary: Удалить фильм по ID
+      operationId: deleteMovie
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: Идентификатор фильма
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Фильм успешно удален
+        '404':
+          description: Фильм не найден
