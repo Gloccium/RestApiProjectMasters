@@ -3,9 +3,13 @@ from flask import Flask
 from config import Config
 from models import db
 from resources import movie_bp
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# CORS
+CORS(app)
 
 # Инициализируем базу данных и Marshmallow
 db.init_app(app)
